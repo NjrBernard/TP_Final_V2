@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier - Gestion d'Événements</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="calendar.html" class="calendar-btn" style="background: var(--success);">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Calendrier des événements</h1>
+                        <div class="main-actions">
+                            <button id="prevMonth" class="btn btn-secondary">← Précédent</button>
+                            <button id="todayBtn" class="btn btn-primary">Aujourd'hui</button>
+                            <button id="nextMonth" class="btn btn-secondary">Suivant →</button>
+                        </div>
+                    </div>
+
+                    <!-- Filtre par catégorie -->
+                    <div class="card">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Filtrer par catégorie</label>
+                                <select id="categoryFilter" class="form-select">
+                                    <option value="">Toutes les catégories</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendrier -->
+                    <div class="card">
+                        <div class="calendar-header">
+                            <h2 id="currentMonth"></h2>
+                        </div>
+                        
+                        <div class="calendar-grid">
+                            <div class="calendar-day-header">Lun</div>
+                            <div class="calendar-day-header">Mar</div>
+                            <div class="calendar-day-header">Mer</div>
+                            <div class="calendar-day-header">Jeu</div>
+                            <div class="calendar-day-header">Ven</div>
+                            <div class="calendar-day-header">Sam</div>
+                            <div class="calendar-day-header">Dim</div>
+                        </div>
+
+                        <div id="calendarBody" class="calendar-grid"></div>
+                    </div>
+
+                    <!-- Légende des catégories -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 16px 0;">Légende des catégories</h3>
+                        <div id="categoryLegend" class="category-legend"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+       <!-- Modal pour les détails d'événement -->
+    <div id="eventModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalEventTitle">Détails de l'événement</h3>
+                <button id="closeModal" class="btn btn-secondary" style="padding: 4px 8px;">✕</button>
+            </div>
+            <div id="modalEventContent" class="modal-body">
+                <!-- Contenu chargé dynamiquement -->
+            </div>
+            <div class="modal-footer">
+                <a id="editEventBtn" href="#" class="btn btn-primary">✏️ Modifier</a>
+                <button id="closeModalBtn" class="btn btn-secondary">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+<script src="js/common/layout.js"></script>
+<script src="js/calendar.js"></script> <!-- si il existe -->
+</body>
+</html>

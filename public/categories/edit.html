@@ -1,0 +1,124 @@
+<!-- public/categories/edit.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier la catégorie - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Modifier la catégorie</h1>
+                        <div class="main-actions">
+                            <a href="list.html" class="btn btn-secondary">← Retour à la liste</a>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+                    <div class="card">
+                        <div id="loading" style="text-align: center; padding: 40px;">
+                            <div class="loading"></div>
+                            Chargement de la catégorie...
+                        </div>
+
+                        <form id="categoryForm" method="POST" style="display: none;">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nom de la catégorie *</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Couleur *</label>
+                                <div class="color-picker">
+                                    <label class="color-option" style="background-color: #ef4444;">
+                                        <input type="radio" name="color" value="#ef4444" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #f97316;">
+                                        <input type="radio" name="color" value="#f97316" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #eab308;">
+                                        <input type="radio" name="color" value="#eab308" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #22c55e;">
+                                        <input type="radio" name="color" value="#22c55e" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #06b6d4;">
+                                        <input type="radio" name="color" value="#06b6d4" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #3b82f6;">
+                                        <input type="radio" name="color" value="#3b82f6" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #8b5cf6;">
+                                        <input type="radio" name="color" value="#8b5cf6" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #ec4899;">
+                                        <input type="radio" name="color" value="#ec4899" required>
+                                    </label>
+                                    <label class="color-option" style="background-color: #6b7280;">
+                                        <input type="radio" name="color" value="#6b7280" required>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea id="description" name="description" class="form-textarea" rows="3"></textarea>
+                            </div>
+
+                            <!-- Aperçu -->
+                            <div class="form-group">
+                                <label class="form-label">Aperçu</label>
+                                <div id="preview"
+                                    style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: white;">
+                                    <span class="badge" id="previewBadge"
+                                        style="background: #e5e7eb20; color: #6b7280;">
+                                        Catégorie
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                                <a href="list.html" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="btn-text">Mettre à jour</span>
+                                    <span class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/categories/edit.js"></script>
+</body>
+
+</html>

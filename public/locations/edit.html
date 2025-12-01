@@ -1,0 +1,101 @@
+<!-- public/locations/edit.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier le lieu - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Modifier le lieu</h1>
+                        <div class="main-actions">
+                            <a href="list.html" class="btn btn-secondary">← Retour à la liste</a>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+                    <div class="card">
+                        <div id="loading" style="text-align: center; padding: 40px;">
+                            <div class="loading"></div>
+                            Chargement du lieu...
+                        </div>
+
+                        <form id="locationForm" method="POST" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Nom du lieu *</label>
+                                    <input type="text" id="name" name="name" class="form-input" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city" class="form-label">Ville *</label>
+                                    <input type="text" id="city" name="city" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="department" class="form-label">Département *</label>
+                                    <select id="department" name="department" class="form-select" required>
+                                        <option value="">Sélectionnez un département</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="capacity" class="form-label">Capacité *</label>
+                                    <input type="number" id="capacity" name="capacity" class="form-input" min="1"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address" class="form-label">Adresse complète</label>
+                                <textarea id="address" name="address" class="form-textarea" rows="3"></textarea>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                                <a href="list.html" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-success">
+                                    <span class="btn-text">Mettre à jour</span>
+                                    <span class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/locations/edit.js"></script>
+</body>
+
+</html>

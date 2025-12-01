@@ -1,0 +1,76 @@
+<!-- public/locations/delete.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supprimer le lieu - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Supprimer le lieu</h1>
+                        <div class="main-actions">
+                            <a href="list.html" class="btn btn-secondary">← Retour à la liste</a>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+                    <div class="card">
+                        <div id="loading" style="text-align: center; padding: 40px;">
+                            <div class="loading"></div>
+                            Chargement du lieu...
+                        </div>
+
+                        <div id="deleteContent" style="display: none;">
+                            <div class="alert alert-danger">
+                                <strong>⚠️ Attention !</strong> Cette action est irréversible. Le lieu sera
+                                définitivement supprimé.
+                            </div>
+
+                            <div id="locationDetails"></div>
+
+                            <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                                <a href="list.html" class="btn btn-secondary">Annuler</a>
+                                <button id="confirmDelete" class="btn btn-danger">
+                                    <span class="btn-text">🗑️ Supprimer définitivement</span>
+                                    <span class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/locations/delete.js"></script>
+</body>
+
+</html>

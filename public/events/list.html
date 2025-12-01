@@ -1,0 +1,107 @@
+<!-- public/events/list.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des événements - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Événements</h1>
+                        <div class="main-actions">
+                            <a href="create.html" class="btn btn-primary">➕ Nouvel événement</a>
+                        </div>
+                    </div>
+
+                    <!-- Filtres -->
+                    <div class="card">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Rechercher</label>
+                                <input type="text" id="searchInput" class="form-input"
+                                    placeholder="Nom de l'événement... ">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Catégorie</label>
+                                <select id="categoryFilter" class="form-select">
+                                    <option value="">Toutes les catégories</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Statut</label>
+                                <select id="statusFilter" class="form-select">
+                                    <option value="">Tous les statuts</option>
+                                    <option value="upcoming">À venir</option>
+                                    <option value="ongoing">En cours</option>
+                                    <option value="past">Passés</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="alert-container"></div>
+
+                    <!-- Tableau -->
+                    <div class="card">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Date début</th>
+                                        <th>Date fin</th>
+                                        <th>Lieu</th>
+                                        <th>Catégorie</th>
+                                        <th>Participants</th> <!-- NOUVEAU -->
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventsTableBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center; padding: 40px;">
+                                            <div class="loading"></div>
+                                            Chargement des événements...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/events/list.js"></script>
+</body>
+
+</html>

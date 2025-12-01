@@ -1,0 +1,141 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Gestion d'Événements</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+<!-- Remplace la partie sidebar dans public/index.html -->
+<aside class="sidebar" id="sidebar">
+    <!-- La sidebar sera chargée automatiquement par JavaScript -->
+</aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Tableau de bord</h1>
+                        <div class="main-actions">
+                            <a href="events/create.html" class="btn btn-primary">➕ Nouvel événement</a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                        <!-- Carte Événements -->
+                        <div class="card">
+                            <h3 style="margin: 0 0 16px 0; color: var(--primary);">📅 Événements</h3>
+                            <p style="margin: 0 0 16px 0; color: var(--muted);">Gérez vos événements</p>
+                            <div style="display: flex; gap: 12px;">
+                                <a href="events/list.html" class="btn btn-secondary">Voir tous</a>
+                                <a href="events/create.html" class="btn btn-primary">Créer</a>
+                            </div>
+                        </div>
+
+                        <!-- Carte Lieux -->
+                        <div class="card">
+                            <h3 style="margin: 0 0 16px 0; color: var(--success);">📍 Lieux</h3>
+                            <p style="margin: 0 0 16px 0; color: var(--muted);">Gérez les lieux d'événements</p>
+                            <div style="display: flex; gap: 12px;">
+                                <a href="locations/list.html" class="btn btn-secondary">Voir tous</a>
+                                <a href="locations/create.html" class="btn btn-success">Créer</a>
+                            </div>
+                        </div>
+
+                        <!-- Carte Participants -->
+                        <div class="card">
+                            <h3 style="margin: 0 0 16px 0; color: var(--warning);">👥 Participants</h3>
+                            <p style="margin: 0 0 16px 0; color: var(--muted);">Gérez les participants</p>
+                            <div style="display: flex; gap: 12px;">
+                                <a href="attendees/list.html" class="btn btn-secondary">Voir tous</a>
+                                <a href="attendees/create.html" class="btn" style="background: var(--warning); color: white;">Inscrire</a>
+                            </div>
+                        </div>
+
+                        <!-- Carte Catégories -->
+                        <div class="card">
+                            <h3 style="margin: 0 0 16px 0; color: var(--danger);">🏷️ Catégories</h3>
+                            <p style="margin: 0 0 16px 0; color: var(--muted);">Organisez par catégories</p>
+                            <div style="display: flex; gap: 12px;">
+                                <a href="categories/list.html" class="btn btn-secondary">Voir toutes</a>
+                                <a href="categories/create.html" class="btn btn-danger">Créer</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistiques récentes -->
+                    <div class="card" style="margin-top: 24px;">
+                        <h3 style="margin: 0 0 20px 0;">📊 Statistiques rapides</h3>
+                        <div id="stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center;">
+                            <div>
+                                <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="events-count">-</div>
+                                <div style="color: var(--muted); font-size: 14px;">Événements totaux</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 32px; font-weight: 700; color: var(--success);" id="locations-count">-</div>
+                                <div style="color: var(--muted); font-size: 14px;">Lieux disponibles</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 32px; font-weight: 700; color: var(--warning);" id="attendees-count">-</div>
+                                <div style="color: var(--muted); font-size: 14px;">Participants inscrits</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 32px; font-weight: 700; color: var(--danger);" id="categories-count">-</div>
+                                <div style="color: var(--muted); font-size: 14px;">Catégories créées</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/common/layout.js"></script>
+    <script>
+        // Charger les statistiques au chargement de la page
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const [eventsRes, locationsRes, attendeesRes, categoriesRes] = await Promise.all([
+                    fetch('/api/events'),
+                    fetch('/api/locations'),
+                    fetch('/api/attendees'),
+                    fetch('/api/categories')
+                ]);
+
+                const events = await eventsRes.json();
+                const locations = await locationsRes.json();
+                const attendees = await attendeesRes.json();
+                const categories = await categoriesRes.json();
+
+                document.getElementById('events-count').textContent = events.length || 0;
+                document.getElementById('locations-count').textContent = locations.length || 0;
+                document.getElementById('attendees-count').textContent = attendees.length || 0;
+                document.getElementById('categories-count').textContent = categories.length || 0;
+            } catch (error) {
+                console.log('Impossible de charger les statistiques');
+                document.getElementById('events-count').textContent = '0';
+                document.getElementById('locations-count').textContent = '0';
+                document.getElementById('attendees-count').textContent = '0';
+                document.getElementById('categories-count').textContent = '0';
+            }
+        });
+    </script>
+</body>
+</html>

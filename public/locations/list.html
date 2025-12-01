@@ -1,0 +1,95 @@
+<!-- public/locations/list.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des lieux - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Lieux</h1>
+                        <div class="main-actions">
+                            <a href="create.html" class="btn btn-success">➕ Nouveau lieu</a>
+                        </div>
+                    </div>
+
+                    <!-- Filtres -->
+                    <div class="card">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Rechercher</label>
+                                <input type="text" id="searchInput" class="form-input" placeholder="Nom ou ville... ">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Département</label>
+                                <select id="departmentFilter" class="form-select">
+                                    <option value="">Tous les départements</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="alert-container"></div>
+
+                    <!-- Tableau -->
+                    <div class="card">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Ville</th>
+                                        <th>Département</th>
+                                        <th>Capacité</th>
+                                        <th>Événements</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="locationsTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 40px;">
+                                            <div class="loading"></div>
+                                            Chargement des lieux...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/locations/list.js"></script>
+</body>
+
+</html>

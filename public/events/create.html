@@ -1,0 +1,104 @@
+<!-- public/events/create.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un événement - Gestion d'Événements</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="frame" id="frame">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button class="burger" id="burgerBtn" aria-label="Toggle sidebar">☰</button>
+                <a href="../index.html" class="navbar-title">📅 EventFlow</a>
+            </div>
+            <div class="navbar-right">
+                <a href="../calendar.html" class="calendar-btn">📅 Calendrier</a>
+            </div>
+        </header>
+
+        <div class="schema-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- La sidebar sera chargée automatiquement par JavaScript -->
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <div class="main-header">
+                        <h1 class="main-title">Créer un événement</h1>
+                        <div class="main-actions">
+                            <a href="list.html" class="btn btn-secondary">← Retour à la liste</a>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+                    <div class="card">
+                        <form id="eventForm" method="POST" action="/api/events">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Nom de l'événement *</label>
+                                    <input type="text" id="name" name="name" class="form-input" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="category_id" class="form-label">Catégorie *</label>
+                                    <select id="category_id" name="category_id" class="form-select" required>
+                                        <option value="">Sélectionnez une catégorie</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="start_date" class="form-label">Date de début *</label>
+                                    <input type="datetime-local" id="start_date" name="start_date" class="form-input"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="end_date" class="form-label">Date de fin *</label>
+                                    <input type="datetime-local" id="end_date" name="end_date" class="form-input"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location_id" class="form-label">Lieu *</label>
+                                <select id="location_id" name="location_id" class="form-select" required>
+                                    <option value="">Sélectionnez un lieu</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea id="description" name="description" class="form-textarea" rows="4"></textarea>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                                <a href="list.html" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="btn-text">Créer l'événement</span>
+                                    <span class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/common/layout.js"></script>
+    <script src="../js/events/create.js"></script>
+</body>
+
+</html>
