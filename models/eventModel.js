@@ -2,31 +2,31 @@
 const db = require('../config/database');
 
 class EventModel {
-static getAll() {
-    return new Promise((resolve, reject) => {
-        const query = `
-            SELECT 
-                e.*,
-                l.name as location_name,
-                l.city as location_city,
-                l. capacity as location_capacity,
-                c.name as category_name,
-                c.color as category_color,
-                COUNT(a.id) as registered_count
-            FROM events e
-            LEFT JOIN locations l ON e.location_id = l.id
-            LEFT JOIN categories c ON e.category_id = c.id
-            LEFT JOIN attendees a ON e.id = a.event_id
-            GROUP BY e.id
-            ORDER BY e.start_date DESC
-        `;
-        
-        db. all(query, [], (err, rows) => {
-            if (err) reject(err);
-            else resolve(rows);
+    static getAll() {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT 
+                    e.*,
+                    l.name as location_name,
+                    l.city as location_city,
+                    l.capacity as location_capacity,
+                    c.name as category_name,
+                    c.color as category_color,
+                    COALESCE(SUM(a.companions_count), 0) as registered_count
+                FROM events e
+                LEFT JOIN locations l ON e.location_id = l.id
+                LEFT JOIN categories c ON e.category_id = c.id
+                LEFT JOIN attendees a ON e.id = a.event_id
+                GROUP BY e.id
+                ORDER BY e.start_date DESC
+            `;
+            
+            db.all(query, [], (err, rows) => {
+                if (err) reject(err);
+                else resolve(rows);
+            });
         });
-    });
-}
+    }
 
     static getById(id) {
         return new Promise((resolve, reject) => {

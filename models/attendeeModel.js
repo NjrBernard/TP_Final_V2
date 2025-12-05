@@ -34,13 +34,16 @@ class AttendeeModel {
 
     static create(data) {
         return new Promise((resolve, reject) => {
-            const { first_name, last_name, email, phone, event_id } = data;
+            // AJOUT du champ companions_count
+            const { first_name, last_name, email, phone, event_id, companions_count } = data;
+            const finalCompanionsCount = companions_count || 1; // Valeur par défaut = 1
+            
             db.run(
-                'INSERT INTO attendees (first_name, last_name, email, phone, event_id) VALUES (?, ?, ?, ?, ? )',
-                [first_name, last_name, email, phone, event_id],
+                'INSERT INTO attendees (first_name, last_name, email, phone, event_id, companions_count) VALUES (?, ?, ?, ?, ?, ?)',
+                [first_name, last_name, email, phone, event_id, finalCompanionsCount],
                 function(err) {
                     if (err) reject(err);
-                    else resolve({ id: this.lastID, ...data });
+                    else resolve({ id: this.lastID, ...data, companions_count: finalCompanionsCount });
                 }
             );
         });
@@ -48,10 +51,13 @@ class AttendeeModel {
 
     static update(id, data) {
         return new Promise((resolve, reject) => {
-            const { first_name, last_name, email, phone, event_id } = data;
+            // AJOUT du champ companions_count
+            const { first_name, last_name, email, phone, event_id, companions_count } = data;
+            const finalCompanionsCount = companions_count || 1; // Valeur par défaut = 1
+            
             db.run(
-                'UPDATE attendees SET first_name = ?, last_name = ?, email = ?, phone = ?, event_id = ? WHERE id = ?',
-                [first_name, last_name, email, phone, event_id, id],
+                'UPDATE attendees SET first_name = ?, last_name = ?, email = ?, phone = ?, event_id = ?, companions_count = ? WHERE id = ?',
+                [first_name, last_name, email, phone, event_id, finalCompanionsCount, id],
                 function(err) {
                     if (err) reject(err);
                     else resolve({ id, changes: this.changes });
@@ -62,7 +68,7 @@ class AttendeeModel {
 
     static delete(id) {
         return new Promise((resolve, reject) => {
-            db.run('DELETE FROM attendees WHERE id = ?', [id], function(err) {
+            db.run('DELETE FROM attendees WHERE id = ? ', [id], function(err) {
                 if (err) reject(err);
                 else resolve({ changes: this.changes });
             });

@@ -1,117 +1,189 @@
-// public/js/common/layout.js - VERSION DE TEST
-document.addEventListener('DOMContentLoaded', async function() {
+// public/js/common/layout.js - VERSION AVEC NAVBAR TC POUSSAN
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Chargement de la sidebar et navbar...');
+    
     const sidebar = document.getElementById('sidebar');
+    const burgerBtn = document.getElementById('burgerBtn');
+    const frame = document.getElementById('frame');
     
-    console.log('Chargement de la sidebar...');
+    // Charger la navbar ET la sidebar
+    loadNavbar();
     
-    // Version de test avec HTML directement
-    sidebar.innerHTML = `
-        <nav>
-            <ul class="sidebar-menu">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" data-section="events">
-                        <span><span class="sidebar-icon">📅</span>Événements</span>
-                        <span class="sidebar-arrow">▶</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="../events/list.html" class="sidebar-sublink">📋 Afficher</a></li>
-                        <li><a href="../events/create.html" class="sidebar-sublink">➕ Créer</a></li>
-                        <li><a href="../events/list.html" class="sidebar-sublink">✏️ Modifier</a></li>
-                        <li><a href="../events/list.html" class="sidebar-sublink">🗑️ Supprimer</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" data-section="locations">
-                        <span><span class="sidebar-icon">📍</span>Lieux</span>
-                        <span class="sidebar-arrow">▶</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="../locations/list.html" class="sidebar-sublink">📋 Afficher</a></li>
-                        <li><a href="../locations/create.html" class="sidebar-sublink">➕ Créer</a></li>
-                        <li><a href="../locations/list.html" class="sidebar-sublink">✏️ Modifier</a></li>
-                        <li><a href="../locations/list.html" class="sidebar-sublink">🗑️ Supprimer</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" data-section="attendees">
-                        <span><span class="sidebar-icon">👥</span>Participants</span>
-                        <span class="sidebar-arrow">▶</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="../attendees/list.html" class="sidebar-sublink">📋 Afficher</a></li>
-                        <li><a href="../attendees/create.html" class="sidebar-sublink">➕ Créer</a></li>
-                        <li><a href="../attendees/list.html" class="sidebar-sublink">✏️ Modifier</a></li>
-                        <li><a href="../attendees/list.html" class="sidebar-sublink">🗑️ Supprimer</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" data-section="categories">
-                        <span><span class="sidebar-icon">🏷️</span>Catégories</span>
-                        <span class="sidebar-arrow">▶</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="../categories/list.html" class="sidebar-sublink">📋 Afficher</a></li>
-                        <li><a href="../categories/create.html" class="sidebar-sublink">➕ Créer</a></li>
-                        <li><a href="../categories/list.html" class="sidebar-sublink">✏️ Modifier</a></li>
-                        <li><a href="../categories/list.html" class="sidebar-sublink">🗑️ Supprimer</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    `;
+    if (sidebar) {
+        loadSidebar();
+    }
     
-    // Gérer les clics et le burger menu
-    setupEvents();
-    
-    function setupEvents() {
-        const frame = document.getElementById('frame');
-        const burgerBtn = document.getElementById('burgerBtn');
-        
-        // Toggle sidebar
+    // Gestion du burger menu
+    if (burgerBtn) {
         burgerBtn.addEventListener('click', function() {
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('open');
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) {
+                    overlay.classList.toggle('show');
+                }
             } else {
-                frame.classList.toggle('sidebar-closed');
                 sidebar.classList.toggle('closed');
+                frame.classList.toggle('sidebar-closed');
             }
         });
-        
-        // Gestion des menus déroulants
-        const sidebarLinks = sidebar.querySelectorAll('.sidebar-link[data-section]');
-        
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const parentItem = this.closest('.sidebar-item');
-                const wasOpen = parentItem.classList.contains('open');
+    }
+
+    // Fermer sidebar sur mobile en cliquant sur overlay
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('sidebar-overlay')) {
+            sidebar.classList.remove('open');
+            e.target.classList.remove('show');
+        }
+    });
+
+    // ===== NOUVELLE FONCTION : CHARGER LA NAVBAR ===== 
+    async function loadNavbar() {
+        try {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                const response = await fetch('../components/navbar.html');
+                const content = await response.text();
+                navbar.outerHTML = content;
+                console.log('Navbar TC Poussan chargée ! ');
                 
-                sidebar.querySelectorAll('.sidebar-item').forEach(item => {
-                    item.classList.remove('open');
-                });
-                
-                if (!wasOpen) {
-                    parentItem.classList.add('open');
-                }
-            });
-        });
-        
-        // Ouvrir automatiquement selon la section
-        const currentPath = window.location.pathname;
-        if (currentPath.includes('/events/')) {
-            const item = sidebar.querySelector('[data-section="events"]');
-            if (item) item.closest('.sidebar-item').classList.add('open');
-        } else if (currentPath.includes('/locations/')) {
-            const item = sidebar.querySelector('[data-section="locations"]');
-            if (item) item.closest('.sidebar-item').classList.add('open');
-        } else if (currentPath.includes('/attendees/')) {
-            const item = sidebar.querySelector('[data-section="attendees"]');
-            if (item) item.closest('.sidebar-item').classList.add('open');
-        } else if (currentPath.includes('/categories/')) {
-            const item = sidebar.querySelector('[data-section="categories"]');
-            if (item) item.closest('.sidebar-item').classList.add('open');
+                // Ré-attacher les événements après chargement
+                setTimeout(() => {
+                    const newBurgerBtn = document.getElementById('burgerBtn');
+                    if (newBurgerBtn && !newBurgerBtn.hasAttribute('data-listener')) {
+                        newBurgerBtn.setAttribute('data-listener', 'true');
+                        newBurgerBtn.addEventListener('click', function() {
+                            if (window.innerWidth <= 768) {
+                                sidebar.classList.toggle('open');
+                                const overlay = document.querySelector('.sidebar-overlay');
+                                if (overlay) {
+                                    overlay.classList.toggle('show');
+                                }
+                            } else {
+                                sidebar.classList.toggle('closed');
+                                frame.classList.toggle('sidebar-closed');
+                            }
+                        });
+                    }
+                }, 100);
+            }
+        } catch (error) {
+            console.error('Erreur lors du chargement de la navbar:', error);
         }
     }
-    
-    console.log('Sidebar chargée ! ');
+
+    async function loadSidebar() {
+        try {
+            const response = await fetch('../components/sidebar.html');
+            const content = await response.text();
+            sidebar.innerHTML = content;
+            
+            // Définir les menus SANS sous-menus
+            setupSimpleNavigation();
+            
+            console.log('Sidebar chargée !');
+        } catch (error) {
+            console.error('Erreur lors du chargement de la sidebar:', error);
+            // Fallback : créer la sidebar directement
+            createFallbackSidebar();
+        }
+    }
+
+    function setupSimpleNavigation() {
+        // Créer le menu simple SANS sous-menus
+        const menuData = [
+            { icon: '📊', text: 'Tableau de bord', href: '../index.html' },
+            { icon: '📅', text: 'Événements', href: '../events/list.html' },
+            { icon: '👥', text: 'Participants', href: '../attendees/list.html' },
+            { icon: '📍', text: 'Lieux', href: '../locations/list.html' },
+            { icon: '🏷️', text: 'Catégories', href: '../categories/list.html' },
+            { icon: '🗓️', text: 'Calendrier', href: '../calendar.html' }
+        ];
+
+        // Si le contenu de sidebar.html est déjà bon, on garde
+        // Sinon on reconstruit
+        const existingNavItems = sidebar.querySelectorAll('.nav-item');
+        if (existingNavItems.length === 0) {
+            // Reconstruire la sidebar
+            createSimpleSidebar(menuData);
+        }
+
+        // Marquer l'élément actif
+        highlightActiveMenuItem();
+    }
+
+    function createSimpleSidebar(menuData) {
+        sidebar.innerHTML = `
+            <div class="sidebar-header">
+                <h3>🎛️ Menu Principal</h3>
+            </div>
+            <nav class="sidebar-nav">
+                ${menuData.map(item => `
+                    <a href="${item.href}" class="nav-item">
+                        <span class="nav-icon">${item.icon}</span>
+                        <span class="nav-text">${item.text}</span>
+                    </a>
+                `).join('')}
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-text">
+                    <span>🎾 TC Poussan</span>
+                    <small>v2.0</small>
+                </div>
+            </div>
+        `;
+    }
+
+    function createFallbackSidebar() {
+        sidebar.innerHTML = `
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="../index.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">📊</span>Tableau de bord</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="../events/list.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">📅</span>Événements</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="../attendees/list.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">👥</span>Participants</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="../locations/list.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">📍</span>Lieux</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="../categories/list.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">🏷️</span>Catégories</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="../calendar.html" class="sidebar-link">
+                        <span><span class="sidebar-icon">🗓️</span>Calendrier</span>
+                    </a>
+                </li>
+            </ul>
+        `;
+        
+        highlightActiveMenuItem();
+    }
+
+    function highlightActiveMenuItem() {
+        const currentPath = window.location.pathname;
+        const links = sidebar.querySelectorAll('a');
+        
+        links.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href && currentPath.includes(href.replace('../', ''))) {
+                link.classList.add('active');
+            }
+        });
+    }
 });

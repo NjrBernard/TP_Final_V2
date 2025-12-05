@@ -1,3 +1,4 @@
+// public/js/events/list.js
 document.addEventListener('DOMContentLoaded', async function () {
     const tableBody = document.getElementById('eventsTableBody');
     const searchInput = document.getElementById('searchInput');
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Utilise les données venant du backend avec les JOINs
             const categoryName = event.category_name || 'Non définie';
             const categoryColor = event.category_color || '#6b7280';
-            const locationInfo = event.location_name ? `${event.location_name}, ${event.location_city}` : 'Non défini';
+            const locationInfo = event.location_name ?  `${event.location_name}, ${event.location_city}` : 'Non défini';
 
             const status = getEventStatus(event);
 
@@ -103,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td>${getStatusBadge(status)}</td>
                 <td>
                     <div class="table-actions">
+                        <a href="../attendees/list.html?event=${event.id}" class="btn btn-sm btn-secondary">👥 Voir</a>
                         <a href="edit.html?id=${event.id}" class="btn btn-sm btn-secondary">✏️ Modifier</a>
                         <button onclick="deleteEvent(${event.id})" class="btn btn-sm btn-danger">🗑️ Supprimer</button>
                     </div>
@@ -160,7 +162,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const filtered = allEvents.filter(event => {
             const matchesSearch = event.name.toLowerCase().includes(searchTerm);
-            const matchesCategory = !selectedCategory || event.category_id == selectedCategory;
+            const matchesCategory = ! selectedCategory || event.category_id == selectedCategory;
             const matchesStatus = !selectedStatus || getEventStatus(event) === selectedStatus;
 
             return matchesSearch && matchesCategory && matchesStatus;
@@ -175,7 +177,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Fonction globale pour suppression
     window.deleteEvent = async function (id) {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) return;
+        if (! confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) return;
 
         try {
             const response = await fetch(`/api/events/${id}`, {

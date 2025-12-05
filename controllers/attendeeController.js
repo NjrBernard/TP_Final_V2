@@ -22,48 +22,115 @@ class AttendeeController {
         }
     }
 
+    // ===== FONCTION CREATE MODIFIÉE ===== 
     static async create(req, res) {
         try {
-            const { first_name, last_name, email, phone, event_id } = req.body;
+            const { first_name, last_name, email, phone, event_id, companions_count } = req.body;
             
-            if (!first_name || !last_name || ! email || !phone || !event_id) {
-                return res.status(400).json({ error: 'Tous les champs sont obligatoires' });
+            // ✅ NOUVELLE VALIDATION : Seuls prénom, nom et événement obligatoires
+            if (!first_name || !last_name || ! event_id) {
+                return res.status(400).json({ 
+                    error: 'Le prénom, nom et événement sont obligatoires' 
+                });
             }
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                return res.status(400).json({ error: 'Format email invalide' });
+            // ✅ VALIDATION EMAIL OPTIONNELLE : Si rempli, doit être valide
+            if (email && email.trim() !== '') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.trim())) {
+                    return res.status(400).json({ error: 'Format email invalide' });
+                }
             }
 
-            const attendee = await AttendeeModel.create({ first_name, last_name, email, phone, event_id });
+            // ✅ NETTOYER LES DONNÉES : NULL si vides
+            const cleanData = {
+                first_name: first_name.trim(),
+                last_name: last_name.trim(),
+                email: email && email.trim() !== '' ? email.trim() : null,
+                phone: phone && phone.trim() !== '' ? phone.trim() : null,
+                event_id: parseInt(event_id),
+                companions_count: parseInt(companions_count) || 1
+            };
+
+            const attendee = await AttendeeModel.create(cleanData);
             res.status(201).json(attendee);
         } catch (error) {
             if (error.message.includes('UNIQUE constraint failed')) {
-                res.status(400).json({ error: 'Ce participant est déjà inscrit à cet événement' });
+                res.status(400).json({ 
+                    error: 'Ce participant est déjà inscrit à cet événement' 
+                });
             } else {
                 res.status(500).json({ error: error.message });
             }
         }
     }
 
+    // ===== FONCTION UPDATE MODIFIÉE ===== 
     static async update(req, res) {
         try {
-            const { email } = req.body;
+            const { first_name, last_name, email, phone, event_id, companions_count } = req.body;
             
-            if (email) {
+            // ✅ VALIDATION DES CHAMPS OBLIGATOIRES POUR UPDATE
+            if (first_name !== undefined && ! first_name.trim()) {
+                return res.status(400).json({ error: 'Le prénom est obligatoire' });
+            }
+            
+            if (last_name !== undefined && !last_name.trim()) {
+                return res.status(400).json({ error: 'Le nom est obligatoire' });
+            }
+            
+            if (event_id !== undefined && ! event_id) {
+                return res.status(400).json({ error: 'L\'événement est obligatoire' });
+            }
+
+            // ✅ VALIDATION EMAIL OPTIONNELLE POUR UPDATE
+            if (email !== undefined && email && email.trim() !== '') {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
+                if (!emailRegex.test(email.trim())) {
                     return res.status(400).json({ error: 'Format email invalide' });
                 }
             }
 
-            const result = await AttendeeModel.update(req.params.id, req.body);
+            // ✅ NETTOYER LES DONNÉES POUR UPDATE
+            const cleanData = { ...req.body };
+            
+            if (first_name !== undefined) {
+                cleanData.first_name = first_name.trim();
+            }
+            
+            if (last_name !== undefined) {
+                cleanData.last_name = last_name.trim();
+            }
+            
+            if (email !== undefined) {
+                cleanData.email = email && email.trim() !== '' ? email.trim() : null;
+            }
+            
+            if (phone !== undefined) {
+                cleanData.phone = phone && phone.trim() !== '' ? phone.trim() : null;
+            }
+            
+            if (event_id !== undefined) {
+                cleanData.event_id = parseInt(event_id);
+            }
+            
+            if (companions_count !== undefined) {
+                cleanData.companions_count = parseInt(companions_count) || 1;
+            }
+
+            const result = await AttendeeModel.update(req.params.id, cleanData);
             if (result.changes === 0) {
                 return res.status(404).json({ error: 'Participant non trouvé' });
             }
             res.json({ message: 'Participant mis à jour avec succès' });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            if (error.message.includes('UNIQUE constraint failed')) {
+                res.status(400).json({ 
+                    error: 'Ce participant est déjà inscrit à cet événement' 
+                });
+            } else {
+                res.status(500).json({ error: error.message });
+            }
         }
     }
 

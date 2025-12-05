@@ -1,100 +1,226 @@
-/* public/css/calendar.css */
+/* public/css/calendar.css - VERSION HARMONISÉE SANS COLORING WEEK-END */
+
+/* ===== HEADER DU CALENDRIER ===== */
 .calendar-header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 2px solid var(--secondary);
+    background: linear-gradient(135deg, 
+        rgba(219, 234, 254, 0.3) 0%, 
+        rgba(255, 255, 255, 0.9) 100%
+    );
+    border-radius: 12px;
+    padding: 20px;
 }
 
+/* ===== BOUTONS DE NAVIGATION CALENDRIER ===== */
+.calendar-nav-btn,
+#prevMonth,
+#nextMonth,
+#todayBtn {
+    background: var(--secondary) !important;
+    color: white !important;
+    border: 2px solid var(--secondary) !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease ! important;
+    cursor: pointer ! important;
+    text-decoration: none !important;
+    display: inline-block !important;
+}
+
+.calendar-nav-btn:hover,
+#prevMonth:hover,
+#nextMonth:hover,
+#todayBtn:hover {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3) !important;
+}
+
+/* ===== GRILLE DU CALENDRIER ===== */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    background: #e5e7eb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    gap: 2px;
+    background: var(--secondary);
+    border: 2px solid var(--secondary);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 6px 30px rgba(30, 58, 138, 0.08);
 }
 
+/* ===== EN-TÊTES DES JOURS ===== */
 .calendar-day-header {
-    background: #f9fafb;
+    background: linear-gradient(135deg, #dbeafe 0%, #f8fafc 100%);
     padding: 12px 8px;
     text-align: center;
-    font-weight: 600;
-    color: var(--border);
+    font-weight: 700;
+    color: var(--primary);
     font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--secondary);
 }
 
+/* ===== JOURS DU CALENDRIER ===== */
 .calendar-day {
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
     min-height: 120px;
     padding: 8px;
     position: relative;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .calendar-day:hover {
-    background: #f8fafc;
+    background: rgba(219, 234, 254, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+    border-color: var(--secondary);
 }
 
 .calendar-day.other-month {
     background: #f9fafb;
-    color: #9ca3af;
+    color: var(--muted);
+    opacity: 0.6;
 }
 
 .calendar-day.today {
-    background: rgba(37, 99, 235, 0.05);
-    border: 2px solid var(--primary);
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(30, 58, 138, 0.05) 100%
+    ) !important;
+    border: 2px solid var(--secondary) ! important;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2) !important;
 }
 
+.calendar-day.today .calendar-day-number {
+    color: white;
+    background: var(--secondary);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== NUMÉROS DES JOURS ===== */
 .calendar-day-number {
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     font-size: 14px;
+    color: var(--primary);
 }
 
+/* ===== ÉVÉNEMENTS DANS LE CALENDRIER ===== */
 .calendar-event {
-    background: var(--primary);
+    background: var(--secondary);
     color: white;
-    padding: 2px 6px;
-    margin-bottom: 2px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    margin-bottom: 3px;
+    border-radius: 6px;
     font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: block;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    border: 1px solid transparent;
 }
 
 .calendar-event:hover {
+    background: var(--primary);
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+    border-color: var(--primary);
 }
 
+/* ===== FILTRES ===== */
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    border: 2px solid rgba(59, 130, 246, 0.1);
+}
+
+#categoryFilter {
+    border: 2px solid #f9a8d4;
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    background: white;
+    color: var(--primary);
+}
+
+#categoryFilter:focus,
+#categoryFilter:hover {
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+/* ===== LÉGENDE DES CATÉGORIES ===== */
 .category-legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    border: 2px solid rgba(59, 130, 246, 0.1);
 }
 
 .legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+    border-color: var(--secondary);
 }
 
 .legend-color {
     width: 16px;
     height: 16px;
-    border-radius: 4px;
+    border-radius: 6px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles pour la modal */
+.legend-item span {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 12px;
+}
+
+/* ===== MODAL HARMONISÉE ===== */
 .modal {
     position: fixed;
     z-index: 1000;
@@ -102,20 +228,23 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(30, 58, 138, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background: white;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(59, 130, 246, 0.1);
+    border-radius: 16px;
     max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(30, 58, 138, 0.3);
 }
 
 .modal-header {
@@ -123,12 +252,38 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px 16px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+    background: linear-gradient(135deg, 
+        rgba(219, 234, 254, 0.2) 0%, 
+        rgba(255, 255, 255, 0.9) 100%
+    );
 }
 
 .modal-header h3 {
     margin: 0;
-    color: var(--border);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.modal-close,
+#closeModal,
+#closeModalBtn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover,
+#closeModal:hover,
+#closeModalBtn:hover {
+    background: var(--secondary);
+    color: white;
+    transform: scale(1.1);
 }
 
 .modal-body {
@@ -137,28 +292,91 @@
 
 .modal-footer {
     padding: 16px 24px 20px;
-    border-top: 1px solid #e2e8f0;
+    border-top: 2px solid rgba(59, 130, 246, 0.1);
     display: flex;
     gap: 12px;
     justify-content: flex-end;
+    background: rgba(249, 250, 251, 0.5);
 }
 
+/* ===== DÉTAILS D'ÉVÉNEMENT ===== */
 .event-detail {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
-    gap: 8px;
+    margin-bottom: 16px;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.event-detail:last-child {
+    border-bottom: none;
 }
 
 .event-detail strong {
     min-width: 120px;
-    color: var(--border);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
 }
 
+.event-detail span {
+    color: var(--gray-700);
+    font-weight: 500;
+}
+
+/* ===== BOUTONS DANS LA MODAL ===== */
+.modal-footer .btn,
+#editEventBtn {
+    background: var(--secondary) !important;
+    border-color: var(--secondary) ! important;
+    color: white ! important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.modal-footer .btn:hover,
+#editEventBtn:hover {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3) !important;
+}
+
+.modal-footer .btn-secondary {
+    background: transparent !important;
+    color: var(--primary) !important;
+    border-color: var(--primary) ! important;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 768px) {
+    .calendar-header {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .calendar-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .calendar-grid {
+        gap: 1px;
+        border-radius: 8px;
+    }
+    
     .calendar-day {
         min-height: 80px;
-        padding: 4px;
+        padding: 6px;
     }
     
     .calendar-day-header {
@@ -168,12 +386,24 @@
     
     .calendar-event {
         font-size: 10px;
-        padding: 1px 4px;
+        padding: 2px 6px;
+        margin-bottom: 2px;
+    }
+    
+    .calendar-day-number {
+        font-size: 12px;
+    }
+    
+    .calendar-day.today .calendar-day-number {
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
     }
     
     .modal-content {
         width: 95%;
         margin: 20px;
+        border-radius: 12px;
     }
     
     .modal-header,
@@ -182,4 +412,80 @@
         padding-left: 16px;
         padding-right: 16px;
     }
+    
+    .category-legend {
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .legend-item {
+        padding: 4px 8px;
+        gap: 6px;
+    }
+    
+    .legend-color {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .event-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .event-detail strong {
+        min-width: auto;
+        font-size: 13px;
+    }
+    
+    .calendar-nav-btn,
+    #prevMonth,
+    #nextMonth,
+    #todayBtn {
+        padding: 6px 12px ! important;
+        font-size: 12px !important;
+    }
+}
+
+/* ===== ANIMATIONS SUPPLÉMENTAIRES ===== */
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    animation: slideIn 0.3s ease-out;
+}
+
+.calendar-event {
+    animation: slideIn 0.2s ease-out;
+}
+
+/* ===== ÉTATS SPÉCIAUX ===== */
+.calendar-day.has-events::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    background: var(--secondary);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px white;
+}
+
+/* ===== TITRE DU MOIS ===== */
+#currentMonth {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin: 0 20px;
 }
